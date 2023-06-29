@@ -38,7 +38,10 @@ class BlockStoreHelper(context: Context) {
         }
     }
 
-    suspend fun restore(key: String, defaultValue: ByteArray? = null) = withContext(Dispatchers.IO) {
+    suspend fun restore(
+        key: String,
+        defaultValue: ByteArray? = null,
+    ) = withContext(Dispatchers.IO) {
         val request = RetrieveBytesRequest.Builder()
             .setKeys(listOf(key))
             .build()

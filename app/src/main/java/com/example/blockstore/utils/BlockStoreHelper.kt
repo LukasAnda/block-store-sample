@@ -38,14 +38,15 @@ class BlockStoreHelper(context: Context) {
         }
     }
 
-    suspend fun restore(vararg key: String) = withContext(Dispatchers.IO) {
+    suspend fun restore(key: String, defaultValue: ByteArray? = null) = withContext(Dispatchers.IO) {
         val request = RetrieveBytesRequest.Builder()
-            .setKeys(listOf(*key))
+            .setKeys(listOf(key))
             .build()
         return@withContext client.retrieveBytes(request)
             .await()
             .blockstoreDataMap
             .mapValues { it.value.bytes }
+            .getOrDefault(key, defaultValue)
     }
 
     suspend fun restoreAll() = withContext(Dispatchers.IO) {

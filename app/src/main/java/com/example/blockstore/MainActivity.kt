@@ -51,10 +51,10 @@ fun BlockStorageExampleApp() {
         var restoredText by remember { mutableStateOf("") }
 
         LaunchedEffect(key1 = Unit) {
-            val restoredMap = blockStoreHelper.restore(STORAGE_KEY)
-            restoredText = restoredMap
-                .getOrDefault(key = STORAGE_KEY, defaultValue = "".encodeToByteArray())
-                .decodeToString()
+            restoredText = blockStoreHelper
+                .restore(STORAGE_KEY)
+                ?.decodeToString()
+                .orEmpty()
         }
 
         Surface(
@@ -80,10 +80,10 @@ fun BlockStorageExampleApp() {
                                 value = STORAGE_VALUE.encodeToByteArray()
                             )
 
-                            val restoredMap = blockStoreHelper.restore(STORAGE_KEY)
-                            restoredText = restoredMap
-                                .getOrDefault(key = STORAGE_KEY, defaultValue = "".encodeToByteArray())
-                                .decodeToString()
+                            restoredText = blockStoreHelper
+                                .restore(STORAGE_KEY)
+                                ?.decodeToString()
+                                .orEmpty()
                         }
                     },
                 ) {
@@ -96,10 +96,10 @@ fun BlockStorageExampleApp() {
                         coroutineScope.launch {
                             blockStoreHelper.deleteAll()
 
-                            val restoredMap = blockStoreHelper.restore(STORAGE_KEY)
-                            restoredText = restoredMap
-                                .getOrDefault(key = STORAGE_KEY, defaultValue = "".encodeToByteArray())
-                                .decodeToString()
+                            restoredText = blockStoreHelper
+                                .restore(STORAGE_KEY)
+                                ?.decodeToString()
+                                .orEmpty()
                         }
                     },
                 ) {
